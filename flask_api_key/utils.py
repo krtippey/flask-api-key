@@ -2,17 +2,17 @@
 """
 """
 
-from flask import current_app
-from flask import _request_ctx_stack
-from werkzeug.local import LocalProxy
+# data:: _request_ctx_stack is now data:: flask.globals.request_ctx ... _https://stackoverflow.com/questions/73349956/deprecationwarning-reque-st-ctx-stack-is-deprecated-and-will-be-removed-in-f
 
+from flask import current_app
+from werkzeug.local import LocalProxy
+from flask.globals import request_ctx
 
 # Magic access to apikey
 current_api_key = LocalProxy(lambda: get_api_key())
 
-
 def get_api_key():
-    ak = getattr(_request_ctx_stack.top, 'api_key', None)
+    ak = getattr(request_ctx, 'api_key', None)
     return ak
 
 
