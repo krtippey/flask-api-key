@@ -4,7 +4,7 @@
 import secrets
 import string
 from uuid import uuid4
-from flask import _request_ctx_stack
+from flask.globals import request_ctx
 
 from .exceptions import MalformedAPIKey
 from .exceptions import YouMustBeLost
@@ -114,7 +114,7 @@ class APIKey(object):
         if obj is None:
             raise APIKeyNotFound()
 
-        _request_ctx_stack.top.api_key = obj
+        request_ctx.api_key = obj
         return obj
 
     def verify_key(self, unverified_key):
